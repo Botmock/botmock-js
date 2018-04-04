@@ -29,7 +29,7 @@ function Botmock(config) {
 
 Botmock.prototype.fetch = function(endpoint) {
     const headers = {
-        "Authorization": this.api_token
+        "Authorization": `Bearer ${this.api_token}`
     };
 
     const promise = new Promise((resolve, reject) => {

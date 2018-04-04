@@ -15,7 +15,7 @@ describe('Botmock Constructor', function() {
 
 describe('Call Teams', function() {
     var client = new Botmock({
-        api_token: 'Bearer',
+        api_token: 'TEST',
         debug: false,
     });
     it('should return promise', async() => {
@@ -32,7 +32,7 @@ describe('Call Teams', function() {
 
 describe('Call Projects', function() {
     var client = new Botmock({
-        api_token: 'Bearer',
+        api_token: 'TEST',
         debug: false,
     });
 
@@ -54,7 +54,7 @@ describe('Call Projects', function() {
 
 describe('Call Boards', function () {
     var client = new Botmock({
-        api_token: 'Bearer',
+        api_token: 'TEST',
         debug: false,
     });
 
