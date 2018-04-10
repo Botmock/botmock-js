@@ -20,8 +20,8 @@ In order to get started with this client, you'll need to get your access token f
 const Botmock = require('botmock-js');
 
 // Create a client
-const CLIENT = new Botmock({
-    "api_token": API_TOKEN,
+const client = new Botmock({
+    "api_token": API_TOKEN, // fill in your API_TOKEN instead.
     "debug": false // this flag is optional.
 });
 ```
