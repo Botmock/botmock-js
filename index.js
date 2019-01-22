@@ -83,3 +83,15 @@ Botmock.prototype.boards = function(team_id, project_id, board_id) {
 
     return this.fetch(`teams/${team_id}/projects/${project_id}/boards`);
 }
+
+Botmock.prototype.intents = function(team_id, project_id) {
+    return this.fetch(`teams/${team_id}/projects/${project_id}/intents`);
+}
+
+Botmock.prototype.variables = function(team_id, project_id) {
+    return this.fetch(`teams/${team_id}/projects/${project_id}/variables`);
+}
+
+Botmock.prototype.entities = function(team_id, project_id) {
+    return this.fetch(`teams/${team_id}/projects/${project_id}/entities`);
+}
