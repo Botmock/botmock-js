@@ -10,9 +10,6 @@ var fetch = require('node-fetch');
 
 module.exports = Botmock;
 
-const BOTMOCK_API_URL = "https://app.botmock.com/api";
-
-
 /**
  * Constructor for Botmock Client
  * @param {obj} config 
@@ -25,6 +22,7 @@ function Botmock(config) {
 
     this.api_token = config.api_token;
     this.debug = config.debug;
+    this.url = `${config.url ? `http://${config.url}` : 'https://app'}.botmock.com/api`
 }
 
 Botmock.prototype.fetch = function(endpoint) {
@@ -33,7 +31,7 @@ Botmock.prototype.fetch = function(endpoint) {
     };
 
     const promise = new Promise((resolve, reject) => {
-        fetch(`${BOTMOCK_API_URL}/${endpoint}`, {headers: headers})
+        fetch(`${this.url}/${endpoint}`, {headers: headers})
             .then(res => res.json())
             .then((data) => {
                 this.logger(data);
@@ -84,4 +82,16 @@ Botmock.prototype.boards = function(team_id, project_id, board_id) {
     }
 
     return this.fetch(`teams/${team_id}/projects/${project_id}/boards`);
+}
+
+Botmock.prototype.intents = function(team_id, project_id) {
+    return this.fetch(`teams/${team_id}/projects/${project_id}/intents`);
+}
+
+Botmock.prototype.variables = function(team_id, project_id) {
+    return this.fetch(`teams/${team_id}/projects/${project_id}/variables`);
+}
+
+Botmock.prototype.entities = function(team_id, project_id) {
+    return this.fetch(`teams/${team_id}/projects/${project_id}/entities`);
 }
