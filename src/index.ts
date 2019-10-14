@@ -1,12 +1,4 @@
-/**
- * JS Package for Botmock
- * Author: Botmock Team
- * ISC Licensed
- */
-
-'use strict';
-
-var fetch = require('node-fetch');
+import fetch from "node-fetch";
 
 module.exports = Botmock;
 

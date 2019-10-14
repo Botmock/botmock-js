@@ -1,14 +1,18 @@
-# Botmock JS Client
-=========
+# @botmock-api/client
 
-A thin client around the botmock API.
+> nodejs client for interacting with the botmock api
 
-## Installation
+### Installation
 
-  `npm install botmock`
+```bash
+npm i @botmock-api/client
+```
 
+```ts
+import * as client from "@botmock-api/client";
+```
 
-## Getting Started
+<!-- ## Getting Started
 
 In order to get started with this client, you'll need to get your access token from https://botmock.com. After you sign in, go to the *Account Settings* page by clicking on your profile picture on the top right. Then click on *API* from the left side menu. Give your token a name, and hit *Create*. Remember to note down your token since it will not be shown after it is generated.
 
@@ -167,4 +171,4 @@ When contributing to this repository, please first discuss the change you wish t
 
 ## Licensing
 
-We adopt ISC.
+We adopt ISC. -->
