@@ -1,4 +1,3 @@
 node_modules
-err.json
-*.zip
-.env
+converage
+dist
