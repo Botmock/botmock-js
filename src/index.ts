@@ -1,14 +1,16 @@
-import fetch, { Response } from "node-fetch";
+import fetch, { Response, FetchError } from "node-fetch";
 import { EventEmitter } from "events";
 
 interface Config {
-  token: string;
+  readonly token: string;
 }
 
+const URL: string = "https://app.botmock.com/api";
+
 export default class Botmock extends EventEmitter {
-  static URL: string;
-  // @ts-ignore
+  static URL: string = URL;
   private readonly token: string;
+  private readonly timeout: number = 10_000;
   /**
    * Create a new instance of the client
    */
@@ -21,9 +23,17 @@ export default class Botmock extends EventEmitter {
    * @param endpoint string
    * @returns Promise<Response>
    */
-  private async fetch(endpoint: string): Promise<Response> {
+  private async fetch(endpoint: string): Promise<Response | FetchError> {
     const url = `${Botmock.URL}/${endpoint}`;
-    return await fetch(url);
+    const headers = {
+      Authorization: `Bearer ${this.token}`,
+      Accept: "application/json"
+    };
+    const res = await fetch(url, { headers, timeout: this.timeout });
+    if (!res.ok) {
+      return new FetchError(res.statusText, "error");
+    }
+    return await res.json();
   }
   /**
    * Collects responses from given endpoints
