@@ -18,6 +18,8 @@ const client = new Botmock({ token: process.env.BOTMOCK_TOKEN });
 
 ### API
 
+##### Methods
+
 **`client.getProject(opt): Promise<any>`**
 
 Gets project from a `teamId` and `projectId` within `opt`
@@ -64,4 +66,20 @@ Gets all entities from a `teamId` and `projectId`
 
 ```ts
 const entities = await client.getEntities({ teamId, projectId });
+```
+
+#### Error Handling
+
+Events containing errors and also successes can be listened to in the following ways
+
+```ts
+const client = new Botmock({ token: process.env.BOTMOCK_TOKEN });
+
+client.on("error", ({ error, endpoint }: { error: FetchError, endpoint: string }) => {
+  console.error(error, endpoint);
+});
+
+client.on("success", ({ endpoint, timestamp }: { endpoint: string, timestamp: number }) => {
+  console.error(endpoint, timestamp);
+});
 ```
