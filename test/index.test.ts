@@ -18,24 +18,43 @@ describe("setup", () => {
 
 describe("methods", () => {
   let client: Botmock;
+  const [projectId, teamId, boardId] = [
+    process.env.BOTMOCK_PROJECT_ID,
+    process.env.BOTMOCK_TEAM_ID,
+    process.env.BOTMOCK_BOARD_ID
+  ];
   beforeEach(() => {
     client = new Botmock({ token: process.env.BOTMOCK_TOKEN });
   });
   test("get project", async () => {
-    const project = await client.getProject({
-      teamId: process.env.BOTMOCK_TEAM_ID,
-      projectId: process.env.BOTMOCK_PROJECT_ID
-    });
     const properties = ["id", "name", "platform", "type", "created_at", "updated_at"];
+    const project = await client.getProject({ teamId, projectId });
+    expect.assertions(properties.length);
     for (const property of properties) {
       expect(project).toHaveProperty(property);
     }
   });
-  test.todo("get team");
-  test.todo("get board");
-  test.todo("get intents");
-  test.todo("get variables");
-  test.todo("get entities");
+  test("get team", async () => {
+    const team = await client.getTeam(teamId);
+    expect(team.id).not.toBeUndefined();
+  });
+  test("get board", async () => {
+    const board = await client.getBoard({ projectId, teamId, boardId });
+    expect(board).toHaveProperty("board");
+    expect(board.board.messages instanceof Array).toBeTruthy();
+  });
+  test("get intents", async () => {
+    const intents = await client.getIntents({ projectId, teamId });
+    expect(intents instanceof Array).toBeTruthy();
+  });
+  test("get variables", async () => {
+    const variables = await client.getVariables({ projectId, teamId });
+    expect(variables instanceof Array).toBeTruthy();
+  });
+  test("get entities", async () => {
+    const entities = await client.getEntities({ projectId, teamId });
+    expect(entities instanceof Array).toBeTruthy();
+  });
 });
 
 describe.skip("error handling", () => {});
