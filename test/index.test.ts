@@ -1,3 +1,4 @@
+import "dotenv/config";
 import Botmock, { URL } from "../src";
 
 describe("setup", () => {
@@ -16,7 +17,20 @@ describe("setup", () => {
 });
 
 describe("methods", () => {
-  test.todo("get project");
+  let client: Botmock;
+  beforeEach(() => {
+    client = new Botmock({ token: process.env.BOTMOCK_TOKEN });
+  });
+  test("get project", async () => {
+    const project = await client.getProject({
+      teamId: process.env.BOTMOCK_TEAM_ID,
+      projectId: process.env.BOTMOCK_PROJECT_ID
+    });
+    const properties = ["id", "name", "platform", "type", "created_at", "updated_at"];
+    for (const property of properties) {
+      expect(project).toHaveProperty(property);
+    }
+  });
   test.todo("get team");
   test.todo("get board");
   test.todo("get intents");
