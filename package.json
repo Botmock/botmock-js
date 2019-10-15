@@ -1,5 +1,5 @@
 {
-  "name": "@botmock-api/client",
+  "name": "@botmock/client",
   "version": "0.1.0",
   "description": "nodejs client for interacting with the botmock api",
   "main": "dist/index.js",
