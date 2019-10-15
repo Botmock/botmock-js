@@ -14,7 +14,7 @@ interface BoardOpt extends ProjectOpt {
   boardId: string;
 }
 
-const URL: string = "https://app.botmock.com/api";
+export const URL: string = "https://app.botmock.com/api";
 
 export default class Botmock extends EventEmitter {
   static URL: string = URL;
@@ -25,6 +25,9 @@ export default class Botmock extends EventEmitter {
    */
   constructor(config: Config) {
     super();
+    if (typeof config.token !== "string") {
+      throw new Error("token must be a string");
+    }
     this.token = config.token;
   }
   /**

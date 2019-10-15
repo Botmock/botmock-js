@@ -1,11 +1,18 @@
-import Botmock from "../src";
+import Botmock, { URL } from "../src";
 
 describe("setup", () => {
   test("creates instance of class when called with new", () => {
     expect(new Botmock({ token: "" })).toBeInstanceOf(Botmock);
   });
-  test.todo("throws if not given token");
-  test.todo("has static url");
+  test("throws if not given token", () => {
+    expect(() => {
+      // @ts-ignore
+      const client = new Botmock();
+    }).toThrow();
+  });
+  test("has static url", () => {
+    expect(Botmock.URL).toBe(URL);
+  });
 });
 
 describe("methods", () => {
