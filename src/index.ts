@@ -6,12 +6,12 @@ interface Config {
 }
 
 interface ProjectOpt {
-  teamId: string;
-  projectId: string;
+  readonly teamId: string;
+  readonly projectId: string;
 }
 
 interface BoardOpt extends ProjectOpt {
-  boardId: string;
+  readonly boardId: string;
 }
 
 export const URL: string = "https://app.botmock.com/api";
@@ -35,7 +35,7 @@ export default class Botmock extends EventEmitter {
    * @param endpoint string
    * @returns Promise<Response>
    */
-  private async fetch(endpoint: string): Promise<{} | FetchError> {
+  private async fetch(endpoint: string): Promise<JSON | FetchError> {
     const url = `${Botmock.URL}/${endpoint}`;
     const headers = {
       Authorization: `Bearer ${this.token}`,

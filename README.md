@@ -70,7 +70,7 @@ const entities = await client.getEntities({ teamId, projectId });
 
 #### Error Handling
 
-Events containing errors and also successes can be listened to in the following ways
+Events containing errors and also successes can be listened to in the following ways.
 
 ```ts
 const client = new Botmock({ token: process.env.BOTMOCK_TOKEN });
