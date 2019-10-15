@@ -1,4 +1,4 @@
 .env
 dist
-converage
+coverage
 node_modules

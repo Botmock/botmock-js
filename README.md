@@ -9,5 +9,7 @@ npm i @botmock-api/client
 ```
 
 ```ts
-import * as client from "@botmock-api/client";
+import Botmock from "@botmock-api/client";
+
+const client = new Botmock({ token: process.env.BOTMOCK_TOKEN });
 ```
