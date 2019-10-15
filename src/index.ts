@@ -65,7 +65,7 @@ export default class Botmock extends EventEmitter {
     return await this.fetch(`teams/${teamId}`);
   }
   /**
-   * Gets board data from a teamId
+   * Gets board data from a teamId, projectId and boardId
    * @param opt BoardOpt
    * @returns Promise<any>
    */
