@@ -1,8 +1,17 @@
-import fetch, { Response, FetchError } from "node-fetch";
+import fetch, { FetchError } from "node-fetch";
 import { EventEmitter } from "events";
 
 interface Config {
   readonly token: string;
+}
+
+interface ProjectOpt {
+  teamId: string;
+  projectId: string;
+}
+
+interface BoardOpt extends ProjectOpt {
+  boardId: string;
 }
 
 const URL: string = "https://app.botmock.com/api";
@@ -23,7 +32,7 @@ export default class Botmock extends EventEmitter {
    * @param endpoint string
    * @returns Promise<Response>
    */
-  private async fetch(endpoint: string): Promise<Response | FetchError> {
+  private async fetch(endpoint: string): Promise<{} | FetchError> {
     const url = `${Botmock.URL}/${endpoint}`;
     const headers = {
       Authorization: `Bearer ${this.token}`,
@@ -31,110 +40,64 @@ export default class Botmock extends EventEmitter {
     };
     const res = await fetch(url, { headers, timeout: this.timeout });
     if (!res.ok) {
-      return new FetchError(res.statusText, "error");
+      const error = new FetchError(res.statusText, "error")
+      this.emit("error", { endpoint, error });
+      return error;
     }
+    this.emit("success", { endpoint, timestamp: new Date() });
     return await res.json();
   }
   /**
-   * Collects responses from given endpoints
-   * @param endpoints string[]
+   * Gets project from a teamId and projectId
+   * @param opt ProjectOpt
    * @returns Promise<any>
    */
-  public async fetchAssets(endpoints: string[]): Promise<any> {
-    return Promise.all(endpoints.map(async (endpoint: string) => {
-      return await this.fetch(endpoint);
-    }));
+  public async getProject(opt: ProjectOpt): Promise<any> {
+    const { teamId, projectId } = opt;
+    return await this.fetch(`teams/${teamId}/projects/${projectId}`);
+  }
+  /**
+   * Gets team data from a teamId
+   * @param teamId string
+   * @returns Promise<any>
+   */
+  public async getTeam(teamId: string): Promise<any> {
+    return await this.fetch(`teams/${teamId}`);
+  }
+  /**
+   * Gets board data from a teamId
+   * @param opt BoardOpt
+   * @returns Promise<any>
+   */
+  public async getBoard(opt: BoardOpt): Promise<any> {
+    const { teamId, projectId, boardId } = opt;
+    return await this.fetch(`teams/${teamId}/projects/${projectId}/boards/${boardId}`);
+  }
+  /**
+   * Gets all intents for a project
+   * @param opt ProjectOpt
+   * @returns Promise<any>
+   */
+  public async getIntents(opt: ProjectOpt): Promise<any> {
+    const { teamId, projectId } = opt;
+    return await this.fetch(`teams/${teamId}/projects/${projectId}/intents`);
+  }
+  /**
+   * Gets all variables for a project
+   * @param opt ProjectOpt
+   * @returns Promise<any>
+   */
+  public async getVariables(opt: ProjectOpt): Promise<any> {
+    const { teamId, projectId } = opt;
+    return await this.fetch(`teams/${teamId}/projects/${projectId}/variables`);
+  }
+  /**
+   * Gets all entities for a project
+   * @param opt ProjectOpt
+   * @returns Promise<any>
+   */
+  public async getEntities(opt: ProjectOpt): Promise<any> {
+    const { teamId, projectId } = opt;
+    return await this.fetch(`teams/${teamId}/projects/${projectId}/entities`);
   }
 }
-
-// module.exports = Botmock;
-
-// /**
-//  * Constructor for Botmock Client
-//  * @param {obj} config 
-//  */
-// function Botmock(config) {
-//     // Ensure that the config has the api_token
-//     if (!config.api_token) {
-//         throw "api_token not provided in config!"
-//     }
-
-//     this.api_token = config.api_token;
-//     this.debug = config.debug;
-//     this.url = `${config.url ? `http://${config.url}` : 'https://app'}.botmock.com/api`
-// }
-
-// Botmock.prototype.fetch = function(endpoint) {
-//     const headers = {
-//         "Authorization": `Bearer ${this.api_token}`
-//     };
-
-//     const promise = new Promise((resolve, reject) => {
-//         fetch(`${this.url}/${endpoint}`, {headers: headers})
-//             .then(res => res.json())
-//             .then((data) => {
-//                 this.logger(data);
-//                 resolve(data);
-//             })
-//             .catch(err => reject(err));
-//     });
-
-//     return promise;
-// }
-
-// Botmock.prototype.logger = function(msg) {
-//     if (this.debug) {
-//         console.log(msg);
-//     }
-// }
-
-// Botmock.prototype.teams = function(team_id) {
-//     if (team_id) {
-//         return this.fetch(`teams/${team_id}`);
-//     }
-
-//     return this.fetch("teams");
-// }
-
-// Botmock.prototype.projects = function(team_id, project_id) {
-//     if (!team_id) {
-//         throw new Error("You must specify a team_id");
-//     }
-
-//     if (project_id) {
-//         return this.fetch(`teams/${team_id}/projects/${project_id}`);
-//     }
-
-//     return this.fetch(`teams/${team_id}/projects`);
-// }
-
-// Botmock.prototype.boards = function(team_id, project_id, board_id) {
-//     if (!team_id) {
-//         throw new Error("You must specify a team_id");
-//     }
-//     if (!project_id) {
-//         throw new Error("You must specify a project_id");
-//     }
-
-//     if (board_id) {
-//         return this.fetch(`teams/${team_id}/projects/${project_id}/boards/${board_id}`);
-//     }
-
-//     return this.fetch(`teams/${team_id}/projects/${project_id}/boards`);
-// }
-
-// Botmock.prototype.intent = function(team_id, project_id, intent_id) {
-//     return this.fetch(`teams/${team_id}/projects/${project_id}/intents/${intent_id}`);
-// }
-
-// Botmock.prototype.intents = function(team_id, project_id) {
-//     return this.fetch(`teams/${team_id}/projects/${project_id}/intents`);
-// }
-
-// Botmock.prototype.variables = function(team_id, project_id) {
-//     return this.fetch(`teams/${team_id}/projects/${project_id}/variables`);
-// }
-
-// Botmock.prototype.entities = function(team_id, project_id) {
-//     return this.fetch(`teams/${team_id}/projects/${project_id}/entities`);
-// }

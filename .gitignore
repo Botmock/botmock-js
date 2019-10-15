@@ -1,3 +1,4 @@
-node_modules
-converage
+.env
 dist
+converage
+node_modules
