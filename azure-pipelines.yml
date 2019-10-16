@@ -11,7 +11,7 @@ pool:
 
 variables:
 - group: env
-  
+
 steps:
 - task: NodeTool@0
   inputs:
