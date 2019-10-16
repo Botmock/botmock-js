@@ -13,6 +13,12 @@ variables:
 - group: env
   
 steps:
+- bash: echo $(env.token)
+- bash: echo $(env.teamId)
+- bash: echo $(env.projectId)
+- bash: echo $(env.boardId)
+  
+steps:
 - task: NodeTool@0
   inputs:
     versionSpec: '12.x'
