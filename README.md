@@ -1,4 +1,4 @@
-# @botmock/client
+# @botmock-api/client
 
 > nodejs client for interacting with the botmock api
 
@@ -7,11 +7,11 @@
 > Note: In order to get started with this client, you'll need to get your access token from https://app.botmock.com. After you sign in, go to the Account Settings page by clicking on your profile picture on the top right. Then click on "Developer API" from the dropdown menu. Give your token a name, check the box, and hit "Create". Remember to note down your token since it will not be shown after it is generated.
 
 ```bash
-npm i @botmock/client
+npm i @botmock-api/client
 ```
 
 ```ts
-import Botmock from "@botmock/client";
+import Botmock from "@botmock-api/client";
 
 const client = new Botmock({ token: process.env.BOTMOCK_TOKEN });
 ```
