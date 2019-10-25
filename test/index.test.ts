@@ -1,5 +1,20 @@
 import "dotenv/config";
-import Botmock, { URL } from "../src";
+import { Botmock, Batcher } from "../src";
+import { URL } from "../src/fetcher";
+
+describe("batcher", () => {
+  test("creates instance of class when called with new", () => {
+    expect(new Batcher({ token: "", projectId: "", boardId: "", teamId: "" })).toBeInstanceOf(Batcher);
+  });
+  test("throws if not given correct object", () => {
+    expect.assertions(1);
+    expect(() => {
+      // @ts-ignore
+      new Batcher({});
+    }).toThrow();
+  });
+  test.todo("fetches all required resources");
+});
 
 describe("setup", () => {
   test("creates instance of class when called with new", () => {
