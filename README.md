@@ -4,9 +4,9 @@
 
 > nodejs client for interacting with the botmock api
 
-## **`2.x`**
+## **`1.x`**
 
-`master` now tracks version `2.x` of the package. For `1.x` see branch `legacy`.
+`master` now tracks version `1.x` of the package. For `0.1.x` see branch `legacy`.
 
 ## Table of Contents
 
