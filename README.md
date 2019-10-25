@@ -13,8 +13,11 @@
 * [Overview](#overview)
   * [Installation](#installation)
   * [API](#api)
-    * [methods](#methods)
-    * [error handling](#error-handling)
+    * [`Batcher`](#batcher)
+      * [`batchRequest`](#batch-request)
+    * [`Botmock`](#botmock)
+      * [methods](#methods)
+      * [error handling](#error-handling)
 
 ### Installation
 
@@ -24,13 +27,42 @@
 npm i @botmock-api/client
 ```
 
+### API
+
+#### `Batcher`
+
+```ts
+import { Batcher } from "@botmock-api/client";
+
+const config = {
+  token: process.env.BOTMOCK_TOKEN,
+  teamId: process.env.BOTMOCK_TEAM_ID,
+  projectId: process.env.BOTMOCK_PROJECT_ID,
+  boardId: process.env.BOTMOCK_BOARD_ID,
+};
+
+const { data } = await new Batcher(config).batchRequest([
+  "project",
+  "board",
+  "intents",
+  "entities",
+  "variables",
+]);
+```
+
+##### `batchRequest`
+
+**`batcher.batchRequest(string[]): Promise<null | { data: JSONResponse }>`**
+
+Fetches an array of Botmock project resources using the fetcher
+
+#### `Botmock`
+
 ```ts
 import { Botmock } from "@botmock-api/client";
 
 const client = new Botmock({ token: process.env.BOTMOCK_TOKEN });
 ```
-
-### API
 
 ##### Methods
 
