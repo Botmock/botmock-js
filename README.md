@@ -1,6 +1,16 @@
 # @botmock-api/client
 
+[![Build Status](https://dev.azure.com/botmock/client/_apis/build/status/Botmock.botmock-js?branchName=master)](https://dev.azure.com/botmock/client/_build/latest?definitionId=3&branchName=master)
+
 > nodejs client for interacting with the botmock api
+
+## Table of Contents
+
+* [Overview](#overview)
+  * [Installation](#installation)
+  * [API](#api)
+    * [methods](#methods)
+    * [error handling](#error-handling)
 
 ### Installation
 
@@ -11,7 +21,7 @@ npm i @botmock-api/client
 ```
 
 ```ts
-import Botmock from "@botmock-api/client";
+import { Botmock } from "@botmock-api/client";
 
 const client = new Botmock({ token: process.env.BOTMOCK_TOKEN });
 ```
