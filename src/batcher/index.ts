@@ -10,14 +10,14 @@ interface Config {
 
 export type JSONResponse = { [assetName: string]: any };
 
-export type ResouceMap = Map<string, string>;
+export type ResourceMap = Map<string, string>;
 
 export default class extends EventEmitter {
   private readonly client: Botmock;
   private readonly teamId: string;
   private readonly boardId: string;
   private readonly projectId: string;
-  private readonly resourceMethodMap: ResouceMap = new Map([
+  private readonly resourceMethodMap: ResourceMap = new Map([
     ["project", "getProject"],
     ["board", "getBoard"],
     ["intents", "getIntents"],
