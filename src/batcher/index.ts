@@ -58,7 +58,7 @@ export default class extends EventEmitter {
         };
       }));
       return {
-        data: data.reduce((acc, resouce) => ({ ...acc, [resouce.name]: resouce.data }), {})
+        data: data.reduce((acc, resource) => ({ ...acc, [resource.name]: resource.data }), {})
       };
     } catch (err) {
       this.emit("error", err);
