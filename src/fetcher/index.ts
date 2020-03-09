@@ -3,6 +3,7 @@ import { EventEmitter } from "events";
 
 interface Config {
   readonly token: string;
+  readonly subdomain?: string;
 }
 
 interface ProjectOpt {
@@ -14,10 +15,8 @@ interface BoardOpt extends ProjectOpt {
   readonly boardId: string;
 }
 
-export const URL: string = "https://app.botmock.com/api";
-
 export default class Botmock extends EventEmitter {
-  static URL: string = URL;
+  private url: string;
   private readonly token: string;
   private readonly timeout: number = 10_000;
   /**
@@ -29,24 +28,27 @@ export default class Botmock extends EventEmitter {
       throw new Error("token must be a string");
     }
     this.token = config.token;
+    this.url = `https://${config.subdomain ?? "app"}.botmock.com/api`;
   }
   /**
-   * Fetches given resource using config derived from values given during instantiation 
+   * Fetches given resource using config derived from values given during instantiation
    * @param endpoint string
    * @returns Promise<Response>
    */
   private async fetch(endpoint: string): Promise<JSON | FetchError> {
-    const url = `${Botmock.URL}/${endpoint}`;
+    const url = `${this.url}/${endpoint}`;
     const headers = {
       Authorization: `Bearer ${this.token}`,
       Accept: "application/json"
     };
     const res = await fetch(url, { headers, timeout: this.timeout });
     if (!res.ok) {
-      const error = new FetchError(res.statusText, "error")
+      const error = new FetchError(res.statusText, "error");
+      // @ts-ignore
       this.emit("error", { endpoint, error });
       return error;
     }
+    // @ts-ignore
     this.emit("success", { endpoint, timestamp: new Date() });
     return await res.json();
   }
