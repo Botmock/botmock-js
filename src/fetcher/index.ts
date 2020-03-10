@@ -2,7 +2,7 @@ import fetch, { FetchError } from "node-fetch";
 import { EventEmitter } from "events";
 import { Agent } from "https";
 
-interface Config {
+export interface Config {
   token: string;
   subdomain?: string;
   shouldRejectUnauthorized?: boolean;
