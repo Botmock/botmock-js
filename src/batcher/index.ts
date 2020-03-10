@@ -1,14 +1,17 @@
 import { Botmock } from "../";
 import { EventEmitter } from "events";
+import { ClientConfig } from "../";
 
 interface Config {
-  token: string;
-  teamId: string;
-  projectId: string;
-  boardId: string;
+  clientConfig: ClientConfig;
+  projectConfig: {
+    teamId: string;
+    projectId: string;
+    boardId?: string;
+  };
 }
 
-export type JSONResponse = { [assetName: string]: any };
+export type JSONResponse = { [assetName: string]: any; };
 
 export type ResourceMap = Map<string, string>;
 
@@ -30,10 +33,13 @@ export default class extends EventEmitter {
    */
   constructor(config: Config) {
     super();
-    this.teamId = config.teamId;
-    this.boardId = config.boardId;
-    this.projectId = config.projectId;
-    this.client = new Botmock({ token: config.token });
+    const { teamId, boardId, projectId } = config.projectConfig;
+    this.teamId = teamId;
+    this.boardId = boardId;
+    this.projectId = projectId;
+    this.client = new Botmock({
+      ...config.clientConfig,
+    });
     this.client.on("error", (err: Error) => {
       throw err;
     });
@@ -43,12 +49,12 @@ export default class extends EventEmitter {
    * @param resourceNames string[]
    * @returns Promise<null | { data: JSONResponse }>
    */
-  public async batchRequest(resourceNames: string[]): Promise<null | { data: JSONResponse }> {
+  public async batchRequest(resourceNames: string[]): Promise<null | { data: JSONResponse; }> {
     try {
       const { teamId, projectId, boardId } = this;
       const data = await Promise.all(resourceNames.map(async resourceName => {
         const method = this.resourceMethodMap.get(resourceName);
-        const argument: Partial<Config> = { projectId, teamId };
+        const argument: Config["projectConfig"] = { projectId, teamId };
         if (resourceName === "board") {
           argument.boardId = boardId;
         }

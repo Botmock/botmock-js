@@ -1,6 +1,7 @@
 import "dotenv/config";
 import { Botmock, Batcher } from "../src";
-import { URL } from "../src/fetcher";
+
+const URL = "https://app.botmock.com/api";
 
 describe("batcher", () => {
   test("creates instance of class when called with new", () => {
@@ -25,9 +26,6 @@ describe("setup", () => {
       // @ts-ignore
       const client = new Botmock();
     }).toThrow();
-  });
-  test("has static url", () => {
-    expect(Botmock.URL).toBe(URL);
   });
 });
 
@@ -72,4 +70,4 @@ describe("methods", () => {
   });
 });
 
-describe.skip("error handling", () => {});
+describe.skip("error handling", () => { });
