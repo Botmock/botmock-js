@@ -4,8 +4,8 @@ import { Agent } from "https";
 
 export interface Config {
   token: string;
+  agent?: Agent;
   subdomain?: string;
-  shouldRejectUnauthorized?: boolean;
 }
 
 interface ProjectOpt {
@@ -32,10 +32,8 @@ export default class Botmock extends EventEmitter {
     }
     this.token = config.token;
     this.#url = `https://${config.subdomain ?? "app"}.botmock.com/api`;
-    if (typeof config.shouldRejectUnauthorized !== "undefined") {
-      this.#agent = new Agent({
-        rejectUnauthorized: config.shouldRejectUnauthorized,
-      });
+    if (config.agent instanceof Agent) {
+      this.#agent = config.agent;
     }
   }
   /**
